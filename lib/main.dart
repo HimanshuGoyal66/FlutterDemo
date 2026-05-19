@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'demoPage.dart';
+import 'demo_page.dart';
+import 'profile_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -66,6 +67,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _selectedIndex = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -150,11 +152,14 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: Row(mainAxisAlignment: MainAxisAlignment.end, spacing: 20,
         children: [
         FloatingActionButton(
+        heroTag: 'fab_increment',
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+      const SizedBox(width: 12),
       FloatingActionButton(
+        heroTag: 'fab_decrement',
         onPressed: _decrementCounter,
         tooltip: 'Decrement',
         child: const Icon(Icons.remove),
@@ -164,6 +169,18 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProfileScreen()),
+            );
+          }
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
